@@ -1,0 +1,80 @@
+import pandas as pd
+import numpy as np
+
+# Start coding here...
+df = pd.read_csv("bank_marketing.csv")
+
+# Define columns for each DataFrame
+client_columns = ['client_id', 'age', 'job', 'marital', 'education', 'credit_default', 'mortgage']
+campaign_columns = ['client_id', 'number_contacts', 'contact_duration', 'previous_campaign_contacts', 'previous_outcome', 'campaign_outcome']
+economics_columns = ['client_id', 'cons_price_idx', 'euribor_three_months']
+
+# Create each DataFrame by selecting the appropriate columns
+client = df[client_columns]
+campaign = df[campaign_columns]
+economics = df[economics_columns]
+
+# Assert that the data is subset correctly
+assert set(client.columns) == set(client_columns), "Client DataFrame columns are incorrect."
+assert set(campaign.columns) == set(campaign_columns), "Campaign DataFrame columns are incorrect."
+assert set(economics.columns) == set(economics_columns), "Economics DataFrame columns are incorrect."
+
+# Clean and format client.csv
+client['job'] = client['job'].replace('.', '_', regex=True)
+client['education'] = client['education'].replace('.', '_', regex=True)
+client['education'] = client['education'].replace("unknown", np.NaN)
+
+# Convert 'credit_default' to boolean: 1 if "yes", otherwise 0
+client['credit_default'] = client['credit_default'].apply(lambda x: 1 if x == "yes" else 0).astype(bool)
+assert client['credit_default'].dtype == 'bool', "credit_default column is not boolean."
+
+# Convert 'mortgage' to boolean: 1 if "yes", otherwise 0
+client['mortgage'] = client['mortgage'].apply(lambda x: 1 if x == "yes" else 0).astype(bool)
+assert client['mortgage'].dtype == 'bool', "mortgage column is not boolean."
+
+# Clean and format campaign.csv
+campaign['previous_outcome'] = campaign['previous_outcome'].apply(lambda x: 1 if x == "yes" else 0).astype(bool)
+campaign['campaign_outcome'] = campaign['campaign_outcome'].apply(lambda x: 1 if x == "yes" else 0).astype(bool)
+
+# Check that the conversion was successful
+assert campaign['previous_outcome'].dtype == 'bool', "previous_outcome column is not boolean."
+assert campaign['campaign_outcome'].dtype == 'bool', "campaign_outcome column is not boolean."
+
+# Define a mapping from month names to numeric values
+month_mapping = {
+    "jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
+    "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12
+}
+
+# Map the month names to numeric values
+df['month'] = df['month'].str.lower().map(month_mapping)
+assert df['month'].notna().all(), "Month mapping failed for some rows."
+
+# Add a new 'year' column with a fixed value of 2022
+df['year'] = 2022
+
+# Create the 'last_contact_date' column by combining 'year', 'month', and 'day'
+df['last_contact_date'] = pd.to_datetime(df[['year', 'month', 'day']])
+
+# Verify 'last_contact_date' data type
+assert df['last_contact_date'].dtype == 'datetime64[ns]', "last_contact_date column is not datetime."
+
+# Drop the 'year' column if it is no longer needed
+df = df.drop(columns=['year'])
+
+# Save each DataFrame as a separate CSV file without an index
+client.to_csv("client.csv", index=False)
+campaign.to_csv("campaign.csv", index=False)
+economics.to_csv("economics.csv", index=False)
+
+# Verification of saved files
+# Reload files and assert columns and data types
+client_reloaded = pd.read_csv("client.csv")
+campaign_reloaded = pd.read_csv("campaign.csv")
+economics_reloaded = pd.read_csv("economics.csv")
+
+assert set(client_reloaded.columns) == set(client_columns), "client.csv columns are incorrect after saving."
+assert set(campaign_reloaded.columns) == set(campaign_columns), "campaign.csv columns are incorrect after saving."
+assert set(economics_reloaded.columns) == set(economics_columns), "economics.csv columns are incorrect after saving."
+
+print("All assertions passed successfully.")
