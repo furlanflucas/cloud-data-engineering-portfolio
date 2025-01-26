@@ -12,41 +12,59 @@ Refer to the workflow and relationship diagrams provided in the project document
 
 ---
 
-## Requirements
+# Steps for Setting Up and Processing Data
 
-### 1. **Landing Zones**
-To simulate data sources:
-- Create the following S3 directories:
-  - `customer_landing/`
-  - `step_trainer_landing/`
-  - `accelerometer_landing/`
-- Copy the provided data into these directories.
+## 1. Setup S3 Buckets
 
----
+### Create S3 Buckets
+Create the following buckets for landing zones:
+- `customer–bucket/`
+- `accelerometer--bucket/`
+- `step_trainer–bucket/`
 
-### 2. **Glue Tables for Landing Zones**
-- Create three Glue tables for the landing zones:
-  - `customer_landing`
-  - `step_trainer_landing`
-  - `accelerometer_landing`
-- Save the SQL scripts for these tables:
-  - `customer_landing.sql`
-  - `step_trainer_landing.sql`
-  - `accelerometer_landing.sql`
-- Add these scripts to the Git repository.
+### Copy the JSON Data into These Buckets
+- **Place customer data** in `customer_landing_folder/`.
+- **Place accelerometer data** in `accelerometer_landing_folder/`.
+- **Place step trainer data** in `step_trainer_landing_folder/`.
 
 ---
 
-### 3. **Query Landing Zone Tables**
-- Use **Athena** to query the landing zone tables to validate data:
-  - Query: `SELECT * FROM stedi.customer_landing LIMIT 10;`
-  - Query: `SELECT * FROM stedi.step_trainer_landing LIMIT 10;`
-  - Query: `SELECT * FROM stedi.accelerometer_landing LIMIT 10;`
-- Take screenshots of the results and save them as:
-  - `customer_landing.png`
-  - `step_trainer_landing.png`
-  - `accelerometer_landing.png`
+## 2. Create Glue Tables from Landing Zone Data
 
+### Use Glue Console to Create Tables
+1. Go to **AWS Glue Console** → **Databases**.
+2. Create a new database: `stedi`.
+3. Use the **Crawler** to set up table creation for each dataset.
+
+### Query Data with Athena
+Validate table creation by querying each table:
+
+- Query for `customer_landing_folder`:
+  ```sql
+  SELECT COUNT(*) FROM customer_landing_folder;
+  ```
+  **Expected Result:** 956 rows.
+
+- Query for `accelerometer_landing_folder`:
+  ```sql
+  SELECT COUNT(*) FROM accelerometer_landing_folder;
+  ```
+  **Expected Result:** 81,273 rows.
+
+- Query for `step_trainer_landing_folder`:
+  ```sql
+  SELECT COUNT(*) FROM step_trainer_landing_folder;
+  ```
+  **Expected Result:** 28,680 rows.
+
+Take screenshots of the query results for documentation.
+
+---
+
+## S3 Bucket Paths
+- `s3://accelerometer--bucket/accelerometer_landing_folder/`
+- `s3://customer--bucket/customer_landing_folder/`
+- `s3://step-trainer--bucket/step_trainer_landing_folder/`
 ---
 
 ### 4. **Sanitize Data for the Trusted Zone**
