@@ -2,116 +2,72 @@
 
 ## Project Overview
 
-This project uses **AWS Glue**, **AWS S3**, **Python**, and **Spark** to build a Lakehouse solution that satisfies the requirements of the STEDI data scientists. The solution involves setting up landing, trusted, and curated zones, sanitizing data, and creating tables for machine learning.
+This project implements a **Lakehouse architecture** using **AWS Glue, S3, Python, and Apache Spark** to process IoT data for **STEDI**. The goal is to clean, transform, and integrate customer, accelerometer, and step trainer data to support data science and machine learning initiatives.
 
----
+## Tech Stack
+- **AWS Glue** (ETL processing)
+- **Amazon S3** (Data Lake storage)
+- **Apache Spark** (Distributed processing)
+- **Amazon Athena** (SQL queries on S3 data)
+- **Python** (Glue Job scripting)
+- **IAM Roles** (Access control)
 
-## Workflow
+## Data Pipeline Workflow
 
-Refer to the workflow and relationship diagrams provided in the project documentation for guidance. The key steps are outlined below.
+1. **Setup S3 Buckets**
+   - `customer–bucket/`
+   - `accelerometer--bucket/`
+   - `step_trainer–bucket/`
 
----
+2. **Landing Zone** (Raw data ingestion in S3)
+   - `customer_landing_folder/`
+   - `accelerometer_landing_folder/`
+   - `step_trainer_landing_folder/`
+   
+3. **Trusted Zone** (Data cleaning & filtering)
+   - `customer_trusted/`: Only customers who agreed to share data.
+   - `accelerometer_trusted/`: Only accelerometer data from customers who opted in.
+   - `step_trainer_trusted/`: Only step trainer data for opted-in customers.
+   
+4. **Curated Zone** (Refined dataset for ML models)
+   - `customers_curated/`: Customers with accelerometer data.
+   - `machine_learning_curated/`: Merged dataset with step trainer & accelerometer readings.
 
-# Steps for Setting Up and Processing Data
+## AWS Glue Jobs
+| Job Name | Description |
+|----------|-------------|
+| **Customer Trusted** | Filters customers who agreed to share data. |
+| **Accelerometer Trusted** | Filters accelerometer data for opted-in customers. |
+| **Step Trainer Trusted** | Filters step trainer data for opted-in customers. |
+| **Customers Curated** | Includes only customers with accelerometer data. |
+| **Machine Learning Curated** | Joins accelerometer and step trainer data for ML. |
 
-## 1. Setup S3 Buckets
+## SQL Queries
+### **Step 5: Creating `step_trainer_trusted`**
+```sql
+SELECT s.* 
+FROM step_trainer_landing s
+WHERE s.serialnumber IN (
+    SELECT DISTINCT c.serialnumber
+    FROM customer_curated c
+);
+```
+### **Step 6: Creating `machine_learning_curated`**
+```sql
+SELECT 
+    a.user AS customer_id,
+    a.timestamp AS accelerometer_timestamp,
+    a.x AS accelerometer_x,
+    a.y AS accelerometer_y,
+    a.z AS accelerometer_z,
+    s.sensorreadingtime AS step_trainer_timestamp,
+    s.distancefromobject AS step_trainer_distance
+FROM accelerometer_trusted a
+JOIN step_trainer_trusted s
+ON a.timestamp = s.sensorreadingtime;
+```
 
-### Create S3 Buckets
-Create the following buckets for landing zones:
-- `customer–bucket/`
-- `accelerometer--bucket/`
-- `step_trainer–bucket/`
-
-### Copy the JSON Data into These Buckets
-- **Place customer data** in `customer_landing_folder/`.
-- **Place accelerometer data** in `accelerometer_landing_folder/`.
-- **Place step trainer data** in `step_trainer_landing_folder/`.
-
----
-
-## 2. Create Glue Tables from Landing Zone Data
-
-### Use Glue Console to Create Tables
-1. Go to **AWS Glue Console** → **Databases**.
-2. Create a new database: `stedi`.
-3. Use the **Crawler** to set up table creation for each dataset.
-
-### Query Data with Athena
-Validate table creation by querying each table:
-
-- Query for `customer_landing_folder`:
-  ```sql
-  SELECT COUNT(*) FROM customer_landing_folder;
-  ```
-  **Expected Result:** 956 rows.
-
-- Query for `accelerometer_landing_folder`:
-  ```sql
-  SELECT COUNT(*) FROM accelerometer_landing_folder;
-  ```
-  **Expected Result:** 81,273 rows.
-
-- Query for `step_trainer_landing_folder`:
-  ```sql
-  SELECT COUNT(*) FROM step_trainer_landing_folder;
-  ```
-  **Expected Result:** 28,680 rows.
-
-Take screenshots of the query results for documentation.
-
----
-
-## S3 Bucket Paths
-- `s3://accelerometer--bucket/accelerometer_landing_folder/`
-- `s3://customer--bucket/customer_landing_folder/`
-- `s3://step-trainer--bucket/step_trainer_landing_folder/`
----
-
-### 4. **Sanitize Data for the Trusted Zone**
-
-Create two AWS Glue jobs:
-1. **Sanitize `customer_landing` Data:**
-   - Filter for customers who agreed to share their data.
-   - Output: `customer_trusted` Glue Table.
-2. **Sanitize `accelerometer_landing` Data:**
-   - Filter accelerometer records for customers who agreed to share their data.
-   - Output: `accelerometer_trusted` Glue Table.
-
----
-
-### 5. **Query Trusted Zone Tables**
-- Use **Athena** to query the `customer_trusted` and `accelerometer_trusted` tables:
-  - Query: `SELECT * FROM stedi.customer_trusted LIMIT 10;`
-  - Query: `SELECT * FROM stedi.accelerometer_trusted LIMIT 10;`
-- Take screenshots of the results and save them as:
-  - `customer_trusted.png`
-  - `accelerometer_trusted.png`
-
----
-
-### 6. **Resolve Serial Number Issue**
-- Fix the serial number issue in `customer_landing`:
-  - Match customer records to accelerometer records.
-  - Create a new table: `customers_curated`.
-
----
-
-### 7. **Glue Studio Jobs for Curated Zone**
-
-Create two Glue Studio jobs:
-1. **Process Step Trainer IoT Data:**
-   - Filter `step_trainer_landing` data for customers with accelerometer data.
-   - Output: `step_trainer_trusted` Glue Table.
-2. **Create Machine Learning Curated Table:**
-   - Join `step_trainer_trusted` with `accelerometer_trusted` on `timestamp`.
-   - Aggregate data for machine learning use.
-   - Output: `machine_learning_curated` Glue Table.
-
----
-
-### 8. **Verify Row Counts**
-After each stage, verify the row counts in the produced tables. Expected row counts:
-
+## Verification Steps
 | Zone       | Table                     | Row Count |
 |------------|---------------------------|-----------|
 | Landing    | `customer_landing`        | 956       |
@@ -123,25 +79,50 @@ After each stage, verify the row counts in the produced tables. Expected row cou
 | Curated    | `customers_curated`       | 482       |
 | Curated    | `machine_learning_curated` | 43,681    |
 
----
+## Troubleshooting
+### **403 Access Denied Errors in Glue Jobs**
+1. Ensure **IAM Role (`AWSGlueServiceRole`)** has `s3:PutObject` permission:
+   ```bash
+   aws iam put-role-policy \
+       --role-name AWSGlueServiceRole \
+       --policy-name GlueS3AccessPolicy \
+       --policy-document '{
+           "Version": "2012-10-17",
+           "Statement": [
+               {
+                   "Effect": "Allow",
+                   "Action": [
+                       "s3:PutObject", "s3:GetObject", "s3:ListBucket"
+                   ],
+                   "Resource": [
+                       "arn:aws:s3:::your-bucket-name",
+                       "arn:aws:s3:::your-bucket-name/*"
+                   ]
+               }
+           ]
+       }'
+   ```
+2. Ensure **Glue job script** has `partitionKeys: []` to avoid appending data incorrectly.
+3. Delete **old S3 data** before rerunning jobs:
+   ```bash
+   aws s3 rm s3://your-bucket/machine_learning_curated/ --recursive
+   ```
+4. Refresh **Athena Metadata**:
+   ```sql
+   MSCK REPAIR TABLE machine_learning_curated;
+   ```
 
-### 9. **Final Documentation**
-- Include the following:
-  - Screenshots for queries and row counts.
-  - SQL scripts for creating tables.
-  - Glue scripts for sanitization and processing.
-- Upload all scripts and screenshots to the Git repository.
+## Deliverables
+- AWS Glue **Job Scripts** (Python)
+- Athena **Query Screenshots**
+- S3 **Raw & Processed Data**
+- README Documentation
 
----
-
-## Tools Used
-- **AWS Glue**
-- **AWS S3**
-- **Apache Spark**
-- **Python**
-- **Amazon Athena**
-
----
+## Future Enhancements
+- Implement **AWS Step Functions** for automated pipeline orchestration.
+- Integrate **AWS Glue Data Catalog** for schema enforcement.
+- Optimize query performance using **S3 partitioning**.
 
 ## Author
 This project was created as part of a data engineering workflow to build a Lakehouse architecture on AWS. If you have any questions, feel free to reach out!
+
