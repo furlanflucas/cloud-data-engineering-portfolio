@@ -115,7 +115,5 @@ SELECT COUNT(*) FROM accelerometer_trusted;
 - **Lucas Furlan**
 - GitHub: [furlanflucas](https://github.com/furlanflucas)
 
----
-✅ This README **fully aligns with the project rubric** and serves as professional documentation for your project. Let me know if you need any modifications! 🚀
 
 
