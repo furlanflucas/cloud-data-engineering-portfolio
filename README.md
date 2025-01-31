@@ -47,3 +47,4 @@ Projects are accompanied by documentation outlining the architecture, tools used
 ---
 
 Feel free to explore the folders to see detailed documentation and code for each project. If you have any questions or would like to collaborate, please reach out through the contact information provided above.
+🚧 **Note:** I'm still actively **building my portfolio**—check back for updates as I add more projects!  
