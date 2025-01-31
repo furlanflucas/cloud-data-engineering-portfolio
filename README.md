@@ -2,11 +2,13 @@
 
 ## About Me
 
-Hi, I’m Lucas! A data-driven problem solver passionate about building **efficient, scalable, and reliable** systems. With a strong foundation in **data engineering, analytics, and automation**, I thrive on optimizing workflows, debugging issues, and designing infrastructure that empowers decision-making.
+Hi, I’m Lucas. A data-driven problem solver passionate about building efficient, scalable, and reliable systems. With a strong foundation in data engineering, analytics, and automation, I thrive on optimizing workflows, debugging issues, and designing infrastructure that empowers decision-making.
 
-I enjoy tackling complex data challenges, whether it's **streamlining ETL pipelines, enhancing data models, or improving system performance**. My approach blends **curiosity, adaptability, and resilience**, ensuring I find solutions even in uncertain situations.
+I enjoy tackling complex data challenges, whether it’s streamlining ETL pipelines, enhancing data models, or improving system performance. My approach blends curiosity, adaptability, and resilience, ensuring I find solutions even in uncertain situations.
 
-Beyond technical skills, I believe technology should drive **innovation, accessibility, and ethical responsibility**. My goal is to contribute to projects that make a meaningful impact while collaborating with like-minded individuals who embrace growth and knowledge-sharing.
+I strongly believe in leveraging AI as a tool for problem-solving, documentation enhancement, and debugging. Whether it’s automating workflows, generating insightful documentation, or accelerating troubleshooting, AI plays a crucial role in my workflow. I see it as an amplifier for productivity and innovation, allowing engineers to focus on high-impact tasks while reducing inefficiencies.
+
+Beyond technical skills, I believe technology should drive innovation, accessibility, and ethical responsibility. My goal is to contribute to meaningful projects while collaborating with like-minded individuals who embrace growth and knowledge-sharing.
 
 ### 💡 Core Values
 
@@ -47,4 +49,5 @@ Projects are accompanied by documentation outlining the architecture, tools used
 ---
 
 Feel free to explore the folders to see detailed documentation and code for each project. If you have any questions or would like to collaborate, please reach out through the contact information provided above.
+
 🚧 **Note:** I'm still actively **building my portfolio**—check back for updates as I add more projects!  
