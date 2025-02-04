@@ -13,9 +13,13 @@ Besides the technical capabilities, I think technology need to lead the way in
 ### 💡 Core Values
 
 ✔ **Resourceful** – I figure things out, even when uncertain how they'll adapt.
+
 ✔ **Systems** – I optimize processes and build systems that scale.
+
 ✔ **Integrity** — I believe in data practices that are ethical, considerate and effective.
+
 ✔ **Autonomy & Collaboration** – I appreciate imagining a solution on my own but I love collaborating, too
+
 ✔ **Curiosity** – I have a view on eternal learning and ahead of forthcoming tech.
 
 📫 **Let’s connect!**
