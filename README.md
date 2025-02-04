@@ -2,21 +2,21 @@
 
 ## About Me
 
-Hi, I’m Lucas. A data-driven problem solver passionate about building efficient, scalable, and reliable systems. With a strong foundation in data engineering, analytics, and automation, I thrive on optimizing workflows, debugging issues, and designing infrastructure that empowers decision-making.
+Hi, I’m Lucas. I love building scalable, high-performance and fault-tolerant systems. I specialize in data engineering, analytics and automation & love optimizing workflows, debugging and building infrastructure that enables data-driven decisions.
 
-I enjoy tackling complex data challenges, whether it’s streamlining ETL pipelines, enhancing data models, or improving system performance. My approach blends curiosity, adaptability, and resilience, ensuring I find solutions even in uncertain situations.
+I enjoy figuring out complex data challenges such as optimizing ETL pipelines, enhancing data models, or increasing system efficiency. Curiosity, adaptability, and resilience drive my problem-solving approach and all my uncertainties lead me to find a solution.
 
-I strongly believe in leveraging AI as a tool for problem-solving, documentation enhancement, and debugging. Whether it’s automating workflows, generating insightful documentation, or accelerating troubleshooting, AI plays a crucial role in my workflow. I see it as an amplifier for productivity and innovation, allowing engineers to focus on high-impact tasks while reducing inefficiencies.
+I firmly believe in using AI to solve problems, improve documentation and help with debugging. AI is a part of my workflow, be it automate things, generating insightful documentation or speed up troublesooting. I view it as a productivity and ideation amplifier that will let engineers spend time on high-impact projects, not muddling through inefficiency.
 
-Beyond technical skills, I believe technology should drive innovation, accessibility, and ethical responsibility. My goal is to contribute to meaningful projects while collaborating with like-minded individuals who embrace growth and knowledge-sharing.
+Besides the technical capabilities, I think technology need to lead the way in innovation, accessibility and ethical obligation. I want to work on purposeful things, with teammates with whom I scale and share knowledge.
 
 ### 💡 Core Values
 
-✔ **Resourcefulness** – I figure things out and find solutions, even in uncertain situations.  
-✔ **Efficiency** – I optimize processes and build systems that scale.  
-✔ **Integrity** – I prioritize ethical, thoughtful, and impactful data practices.  
-✔ **Autonomy & Collaboration** – I value independent problem-solving but also thrive in teamwork.  
-✔ **Curiosity** – I believe in lifelong learning and staying ahead of evolving technology.
+✔ **Resourceful** – I figure things out, even when uncertain how they'll adapt.
+✔ **Systems** – I optimize processes and build systems that scale.
+✔ **Integrity** — I believe in data practices that are ethical, considerate and effective.
+✔ **Autonomy & Collaboration** – I appreciate imagining a solution on my own but I love collaborating, too
+✔ **Curiosity** – I have a view on eternal learning and ahead of forthcoming tech.
 
 📫 **Let’s connect!**
 
