@@ -1,0 +1,18 @@
+
+<svg width="800" height="400" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+    <rect width="800" height="400" fill="black"/>
+    <text x="20" y="40" font-family="monospace" font-size="20" fill="lime">>>> print("Hello World, I'm Lucas.")</text>
+    <text x="20" y="70" font-family="monospace" font-size="20" fill="cyan">Hello World, I'm Lucas.</text>
+
+    <text x="20" y="110" font-family="monospace" font-size="20" fill="lime">>>> print("I specialize in Data Engineering, Analytics, and Automation.")</text>
+    <text x="20" y="140" font-family="monospace" font-size="20" fill="cyan">I specialize in Data Engineering, Analytics, and Automation.</text>
+
+    <text x="20" y="180" font-family="monospace" font-size="20" fill="lime">>>> print("Building scalable, high-performance systems.")</text>
+    <text x="20" y="210" font-family="monospace" font-size="20" fill="cyan">Building scalable, high-performance systems.</text>
+
+    <text x="20" y="250" font-family="monospace" font-size="20" fill="lime">>>> print("I love optimizing workflows, debugging, and creating infrastructure.")</text>
+    <text x="20" y="280" font-family="monospace" font-size="20" fill="cyan">I love optimizing workflows, debugging, and creating infrastructure.</text>
+
+    <text x="20" y="320" font-family="monospace" font-size="20" fill="lime">>>> print("I thrive on solving complex data challenges.")</text>
+    <text x="20" y="350" font-family="monospace" font-size="20" fill="cyan">I thrive on solving complex data challenges.</text>
+</svg>
