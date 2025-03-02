@@ -65,9 +65,6 @@ streamlit run data_pipeline.py
 ## 🎯 Contributions
 Pull requests are welcome! Feel free to contribute improvements or report issues.
 
-## 📜 License
-This project is licensed under the **MIT License**.
-
 ---
 
 🚀 **Developed by Lucas Furlan** | GitHub: [@furlanflucas](https://github.com/furlanflucas)
