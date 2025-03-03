@@ -1,16 +1,20 @@
-# 🚀 Real-Time Fraud Detection with Kafka & Python
+# 🚀 Real-Time Fraud Detection with Kafka & Python  
 
-## 📌 Project Overview
-This project demonstrates a **real-time fraud detection system** using:
-✅ **Apache Kafka** for real-time data streaming.  
-✅ **Python Kafka Producer** to generate simulated transaction data.  
-✅ **Python Kafka Consumer** to process and store transactions.  
-✅ **SQLite** as a simple database for transaction storage.  
-✅ **Streamlit Dashboard** for real-time visualization of fraud transactions.  
+## 📌 Project Overview  
+This project **simulates an AWS-based real-time fraud detection pipeline** using **Apache Kafka for event streaming**, **Python for data processing**, and **Streamlit for visualization**. In a production environment, this system could leverage **AWS MSK (Managed Streaming for Apache Kafka), AWS Lambda, DynamoDB, and SageMaker** for fraud detection.
+
+## ✅ Technologies Used  
+- **Apache Kafka** – Real-time data streaming  
+- **Python Kafka Producer** – Generates and sends simulated transaction data  
+- **Python Kafka Consumer** – Processes, detects fraud, and stores transactions  
+- **SQLite (Simulated Database)** – Stores transactions (In AWS, this could be DynamoDB or RDS)  
+- **Streamlit Dashboard** – Visualizes fraud transactions in real-time  
+- **Docker** – Runs Kafka and Zookeeper services  
 
 ---
 
-## 🎯 **Project Structure**
+## 📂 Project Structure  
+
 📁 `real_time_fraud_detections/`  
 ├── 📄 `fraud_transaction_dataset.py` → **Kafka Producer (Generates Transactions)**  
 ├── 📄 `fraud_cosumer.py` → **Kafka Consumer (Processes Transactions & Stores in DB)**  
@@ -103,9 +107,21 @@ docker exec -it kafka /home/appuser/kafka/bin/kafka-console-consumer.sh --bootst
 ---
 
 ## 📌 **Future Enhancements**
-✅ Integrate **PostgreSQL** or **MongoDB** instead of SQLite.  
-✅ Train a **Machine Learning Model** to classify fraud transactions dynamically.  
-✅ Implement **real-time fraud alerts** via AWS Lambda, Twilio, or WebSockets.  
+📌 AWS Simulation & Future Enhancements
+Although this project runs locally, it is designed to simulate a real-time fraud detection system that would use AWS services:
+
+- **✅ Kafka → AWS MSK** (Managed Kafka for scalability)
+- **✅ SQLite → Amazon DynamoDB or RDS** (PostgreSQL)
+- **✅ Streamlit Dashboard → AWS Lambda + API Gateway + QuickSight**
+- **✅ Python Consumer → AWS Lambda or EMR** (for scalable fraud detection processing)
+- **✅ Future ML Model → AWS SageMaker for real-time fraud classification**
+
+Next Steps:
+- **🔹 Integrate PostgreSQL or MongoDB instead of SQLite for scalability**
+- **🔹 Train a Machine Learning Model to classify fraud dynamically**
+- **🔹 Deploy on AWS using MSK, Lambda, and SageMaker**
+- **🔹 Implement real-time fraud alerts via AWS SNS, Twilio, or WebSockets**
+
 
 ---
 
