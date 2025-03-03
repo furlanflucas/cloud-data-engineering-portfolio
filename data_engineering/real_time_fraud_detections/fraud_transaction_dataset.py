@@ -7,7 +7,7 @@ from datetime import datetime
 
 # Define Kafka producer
 producer = KafkaProducer(
-    bootstrap_servers=['<MSK_BROKER_URL>'],
+    bootstrap_servers=['127.0.0.1:9092'],  # Check this
     value_serializer=lambda v: json.dumps(v).encode('utf-8')
 )
 

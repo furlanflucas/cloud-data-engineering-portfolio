@@ -1,171 +1,114 @@
-# 🚀 Real-Time Fraud Detection with AWS, Kafka, Spark, and Machine Learning  
+# 🚀 Real-Time Fraud Detection with Kafka & Python
 
-## 🚧 Project Status: In Development
-*Note: This project is still being built. Features and components may be subject to change.*
-
-## 📌 Project Overview  
-This project demonstrates how to detect fraudulent transactions **in real-time** using **AWS services, Apache Kafka (MSK), Apache Spark (EMR), and SageMaker for ML model inference**. The goal is to provide a working pipeline that ingests, processes, classifies, and stores transaction data efficiently.  
-
-## 🎯 Objectives  
-✅ **Ingest streaming transaction data** using Apache Kafka (MSK).  
-✅ **Process transaction streams** with Apache Spark on AWS EMR.  
-✅ **Apply a trained machine learning model** to classify transactions as fraudulent or not.  
-✅ **Store fraud detection results** in a database (AWS RDS or DynamoDB).  
-✅ **Trigger alerts** for detected fraud using AWS Lambda.  
+## 📌 Project Overview
+This project demonstrates a **real-time fraud detection system** using:
+✅ **Apache Kafka** for real-time data streaming.  
+✅ **Python Kafka Producer** to generate simulated transaction data.  
+✅ **Python Kafka Consumer** to process and store transactions.  
+✅ **SQLite** as a simple database for transaction storage.  
+✅ **Streamlit Dashboard** for real-time visualization of fraud transactions.  
 
 ---
 
-## 🛠 Tech Stack  
-| Technology  | Purpose  |
-|------------|--------------------------|
-| **AWS MSK (Kafka)** | Real-time data ingestion  |
-| **AWS EMR (Spark Streaming)** | Processing Kafka streams  |
-| **AWS S3** | Storing raw and processed data  |
-| **AWS SageMaker** | ML model training & deployment  |
-| **AWS Lambda** | Triggering alerts on fraud detection  |
-| **AWS RDS / DynamoDB** | Storing fraud detection results  |
+## 🎯 **Project Structure**
+📁 `real_time_fraud_detections/`  
+├── 📄 `fraud_transaction_dataset.py` → **Kafka Producer (Generates Transactions)**  
+├── 📄 `fraud_cosumer.py` → **Kafka Consumer (Processes Transactions & Stores in DB)**  
+├── 📄 `fraud_database.py` → **SQLite Database Logic**  
+├── 📄 `fraud_dashboard.py` → **Streamlit Dashboard for Visualization**  
+├── 📄 `requirements.txt` → **Dependencies**  
+└── 📄 `README.md` → **Project Documentation**  
 
 ---
 
-## 📌 Steps to Build the Project  
+## ⚡ **Setup & Installation**
 
-### 🏁 Step 1: Set Up Kafka (AWS MSK)  
-Kafka is used to **collect and distribute** transaction data streams to different consumers.  
-
-#### 🛠 **Create an MSK Cluster**  
-1. Navigate to AWS Console → **MSK** → **Create Cluster**.  
-2. Select **"Custom Create"**, and use **"Provisioned"** for Cluster Type.  
-3. Choose at least **3 broker nodes** (e.g., `t3.small` for testing).  
-4. Enable **public access** for easier testing.  
-5. Click **Create Cluster**.  
-
-#### 🛠 **Create a Kafka Topic**  
+### 1️⃣ **Clone the Repository**
 ```bash
-kafka-topics.sh --create --zookeeper <zookeeper_connect_string> \
---replication-factor 1 --partitions 3 --topic transaction-events
+cd /workspaces/flucas.io/data_engineering/
+git clone https://github.com/yourusername/real_time_fraud_detections.git
+cd real_time_fraud_detections
 ```
-📌 This topic (`transaction-events`) will hold transaction data.  
 
-#### 🛠 **Produce Transaction Data**  
-```python
-from kafka import KafkaProducer
-import json
-import random
-import time
-import uuid
-from datetime import datetime
-
-# Define Kafka producer
-producer = KafkaProducer(
-    bootstrap_servers=['<MSK_BROKER_URL>'],
-    value_serializer=lambda v: json.dumps(v).encode('utf-8')
-)
-
-# List of merchant categories
-merchant_categories = [
-    "Electronics", "Groceries", "Clothing", "Gas Station", "Online Purchase",
-    "Subscription Service", "Luxury Goods", "Fast Food", "Travel", "Entertainment"
-]
-
-# List of locations
-locations = ["New York", "Los Angeles", "Chicago", "Houston", "San Francisco", "Miami", "Seattle"]
-
-# List of payment methods
-payment_methods = ["Credit Card", "Debit Card", "PayPal", "Bitcoin"]
-
-# Define transaction generator as a lambda function
-generate_transaction = lambda: {
-    "transaction_id": str(uuid.uuid4()),
-    "user_id": random.randint(1000, 9999),
-    "amount": round(random.uniform(1, 5000), 2),
-    "timestamp": datetime.utcnow().isoformat(),
-    "merchant_category": random.choice([
-        "Electronics", "Groceries", "Clothing", "Gas Station", "Online Purchase",
-        "Subscription Service", "Luxury Goods", "Fast Food", "Travel", "Entertainment"
-    ]),
-    "location": random.choice(["New York", "Los Angeles", "Chicago", "Houston", "San Francisco", "Miami", "Seattle"]),
-    "payment_method": random.choice(["Credit Card", "Debit Card", "PayPal", "Bitcoin"]),
-    "is_fraud": random.choices([0, 1], weights=[0.98, 0.02], k=1)[0]
-}
-
-# Continuous data streaming with exception handling
-try:
-    while True:
-        transaction = generate_transaction()  # Generate transaction using lambda
-        producer.send('transaction-events', value=transaction)
-        print(f"Sent: {json.dumps(transaction, indent=2)}")
-        time.sleep(1)  # Send every second
-except KeyboardInterrupt:
-    print("\nStopping producer...")
-finally:
-    producer.close()
-```
-📌 Replace `<MSK_BROKER_URL>` with your MSK broker address.  
-
----
-
-### 🚀 Step 2: Process Streaming Data with Spark on EMR  
-Apache Spark Streaming allows us to process real-time transaction events.  
-
-#### 🛠 **Launch an EMR Cluster**  
-1. Go to **AWS EMR** → **Create Cluster**.  
-2. Choose **"Go to Advanced Options"**.  
-3. Select **Spark** as the application.  
-4. Choose an instance type like **m5.xlarge**.  
-5. Enable **Auto-terminate** (optional for cost control).  
-6. Click **Create Cluster**.  
-
-#### 🛠 **Write a Spark Streaming Script**  
-```python
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import col
-from pyspark.sql.types import StructType, IntegerType, DoubleType, LongType
-from pyspark.ml.classification import LogisticRegressionModel
-
-spark = SparkSession.builder.appName("FraudDetection").getOrCreate()
-
-schema = StructType() \
-    .add("transaction_id", IntegerType()) \
-    .add("user_id", IntegerType()) \
-    .add("amount", DoubleType()) \
-    .add("timestamp", LongType()) \
-    .add("is_fraud", IntegerType())
-
-transactions = spark.readStream.format("kafka") \
-    .option("kafka.bootstrap.servers", "<MSK_BROKER_URL>") \
-    .option("subscribe", "transaction-events") \
-    .load()
-
-transaction_df = transactions \
-    .selectExpr("CAST(value AS STRING)") \
-    .selectExpr("json_tuple(value, 'transaction_id', 'user_id', 'amount', 'timestamp', 'is_fraud') as (transaction_id, user_id, amount, timestamp, is_fraud)") \
-    .select(col("transaction_id").cast(IntegerType()),
-            col("user_id").cast(IntegerType()),
-            col("amount").cast(DoubleType()),
-            col("timestamp").cast(LongType()),
-            col("is_fraud").cast(IntegerType()))
-
-model = LogisticRegressionModel.load("s3://your-bucket/fraud_model")
-predictions = model.transform(transaction_df)
-
-query = predictions.writeStream.outputMode("append").format("console").start()
-query.awaitTermination()
-```
-📌 Replace `<MSK_BROKER_URL>` with your broker details.  
-
-#### 🛠 **Submit the Spark Job**  
+### 2️⃣ **Install Dependencies**
 ```bash
-spark-submit fraud_detection_spark.py
+pip install -r requirements.txt
 ```
-## 📌 Next Steps  
-✅ Automate model retraining with SageMaker Pipelines.  
-✅ Optimize Spark performance with partitioning.  
-✅ Implement Lambda alerts for high fraud detection.  
+
+### 3️⃣ **Start Kafka & Zookeeper**
+```bash
+docker-compose up -d
+```
+Verify Kafka is running:
+```bash
+docker ps
+```
 
 ---
 
-## 📌 Conclusion  
-This project demonstrates **real-time fraud detection** by integrating **Kafka, Spark Streaming, and AWS SageMaker**. The system **ingests, processes, classifies, and stores** transaction data with fraud predictions.  
+## 🚀 **Running the Project**
+### 1️⃣ **Start the Transaction Producer** (Generates Fake Transactions)
+```bash
+python fraud_transaction_dataset.py
+```
+✔ Expected output:
+```
+Sent: { "transaction_id": "123e4567-e89b-12d3-a456-426614174000", "user_id": 4589, "amount": 125.50, "is_fraud": 0 }
+```
 
-## 📩 Contact & Contributions  
-💡 **Feel free to fork, contribute, or reach out for discussions!** 🚀  
+### 2️⃣ **Start the Consumer** (Processes & Stores Transactions in Database)
+```bash
+python fraud_cosumer.py
+```
+✔ Expected output:
+```
+Listening for transactions...
+Received: { "transaction_id": "123e4567-e89b-12d3-a456-426614174000", "user_id": 4589, "amount": 125.50, "is_fraud": 0 }
+Stored transaction: 123e4567-e89b-12d3-a456-426614174000
+```
+
+### 3️⃣ **Run the Dashboard** (Visualizes Transactions in Real-Time)
+```bash
+streamlit run fraud_dashboard.py
+```
+✔ Open your browser and go to: `http://localhost:8501`
+
+---
+
+## 🛠 **Kafka Manual Testing (Optional)**
+
+### **List Topics**
+```bash
+docker exec -it kafka /home/appuser/kafka/bin/kafka-topics.sh --list --bootstrap-server kafka:9092
+```
+
+### **Manually Send a Test Message**
+```bash
+docker exec -it kafka /home/appuser/kafka/bin/kafka-console-producer.sh --broker-list kafka:9092 --topic transaction-events
+```
+Then enter:
+```json
+{"transaction_id":"test123","user_id":9999,"amount":2500.00, "is_fraud":1}
+```
+
+### **Consume Messages**
+```bash
+docker exec -it kafka /home/appuser/kafka/bin/kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic transaction-events --from-beginning
+```
+✔ Expected output:
+```json
+{"transaction_id":"test123","user_id":9999,"amount":2500.00, "is_fraud":1}
+```
+
+---
+
+## 📌 **Future Enhancements**
+✅ Integrate **PostgreSQL** or **MongoDB** instead of SQLite.  
+✅ Train a **Machine Learning Model** to classify fraud transactions dynamically.  
+✅ Implement **real-time fraud alerts** via AWS Lambda, Twilio, or WebSockets.  
+
+---
+
+## 📩 **Contributing & Contact**
+Feel free to fork, contribute, or reach out if you have ideas to enhance this project! 🚀🔥  
+
