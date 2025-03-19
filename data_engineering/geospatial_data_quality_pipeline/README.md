@@ -85,5 +85,7 @@ This project demonstrates my ability to automate data quality validation, proces
 ## Developed by Lucas Furlan  
 GitHub: [@furlanflucas](https://github.com/furlanflucas)
 
+## 🛑 Disclaimer  
+This project is a **simulated geospatial data pipeline** based on industry best practices and my experience working with AV mapping data at Cruise. It does **not** contain any proprietary or confidential data.  
 
 
