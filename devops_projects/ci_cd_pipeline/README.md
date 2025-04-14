@@ -1,6 +1,6 @@
 # 🛠 DevOps Projects by Lucas Furlan
 
-Welcome to my DevOps portfolio! This folder is a work in progress and documents my journey into Cloud and DevOps Engineering.
+Welcome to my DevOps portfolio! 
 
 Here, I’m building and deploying real-world infrastructure using tools like **Terraform, GitHub Actions, Docker, AWS**, and **monitoring stacks** like **Prometheus, Grafana, and CloudWatch**.
 
@@ -19,16 +19,4 @@ GitHub Actions pipeline to build and deploy Docker containers to AWS (ECS/EKS co
 
 ---
 
-## 📌 Goals
-
-- Show production-level DevOps skills  
-- Build clean, modular, and scalable infrastructure  
-- Practice automation, monitoring, and continuous delivery  
-- Learn by doing — and document everything as I go
-
----
-
-## 🧠 Status
-
-This is an ongoing project — I’m constantly improving and adding new components. Stay tuned for more!
 
