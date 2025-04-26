@@ -1,81 +1,86 @@
-# 📊 Data & DevOps Portfolio  
+# 📊 cloud-data-engineering-portfolio
 **Author:** Lucas Furlan  
-**Last Updated:** April 14th, 2025
+**Last Updated:** April 26th, 2025
 
-Welcome to my professional portfolio. With years of experience in cloud infrastructure, DevOps, and data engineering, I’ve built and maintained scalable systems across diverse domains—from fraud detection pipelines to full-stack CI/CD workflows.
-
-This repository highlights a curated selection of projects that demonstrate my technical depth and strategic thinking in **DevOps, automation, real-time data processing**, and **cloud-native architecture**.
-
----
-
-## 📁 Repository Structure
-
-### ⚙️ DevOps Projects  
-Infrastructure automation, monitoring, and deployment pipelines for production-grade environments.
-
-#### 🔹 Core Projects
-- **terraform_aws_setup** – Infrastructure as Code using Terraform to provision EC2, RDS, and S3 with versioning, built with modular, reusable patterns.  
-- **monitoring_stack** – Cloud-native observability stack featuring Prometheus, Grafana dashboards, and CloudWatch alarms for proactive alerting.  
-- **ci_cd_pipeline** – End-to-end CI/CD pipeline using GitHub Actions to build, test, and deploy Docker containers to ECS/EKS environments.
+## Welcome to my professional portfolio. 
+> **Collection of real-world data engineering and data analysis projects built using cloud-native tools, automation, and scalable practices.**
 
 ---
 
-### 🧱 Data Engineering Projects  
-Robust data pipelines and architecture built for scale, automation, and real-time analytics.
+## 🛠️ About This Repository
 
-#### 🔹 Beginner Level
-- **data_processing_with_python** – Efficient handling and transformation of large datasets using Python.
+This repository showcases a variety of **cloud data engineering**, **real-time streaming**, **ETL orchestration**, and **data analytics** projects.  
+Each project focuses on solving business-inspired challenges using modern tools and best practices.
 
-#### 🔹 Intermediate Level
-- **cloud_data_warehouse_for_music_analytics** – Cloud-based data warehousing for large-scale analytics on music streaming platforms.  
-- **data-pipelines-with-airflow** – Automated batch pipelines using Apache Airflow.  
-- **data_modeling_with_apache_cassandra** – Scalable NoSQL schema design using Apache Cassandra.  
-
-#### 🔹 Advanced Level
-- **Geospatial Data Quality Monitor** – Geospatial anomaly detection and real-time visualization for high-integrity map datasets.  
-- **Real-Time Fraud Detection with Kafka & Python** – A production-style pipeline that simulates real-time fraud detection using Apache Kafka, Streamlit dashboards, and Python-based feature engineering.  
+Projects are organized into two main categories:
+- **Data Engineering Projects**: Building robust data pipelines, automating ETL workflows, and designing scalable storage solutions.
+- **Data Analysis Projects**: Analyzing structured and unstructured datasets to generate meaningful insights and visualizations.
 
 ---
 
-### 🧠 Data Analysis Projects  
-Data-driven insights through exploration, visualization, and storytelling.
+## 🗂️ Repository Structure
 
-#### 🔹 Beginner Level
-- **carbon_emissions_analysis** – Global emissions trends visualized to uncover environmental impact.  
-- **mental_health_analysis** – Analysis of global mental health factors across countries and age groups.  
-- **uncovering_the_worlds_oldest_businesses** – Investigating the factors behind business longevity through historical data.  
+```
+cloud-data-engineering-portfolio/
+├── data_analysis/
+│   ├── STEDI_Human_Balance_Analysis/
+│   ├── carbon_emissions_analysis/
+│   ├── fraud_detection/
+│   ├── international_debt_analysis/
+│   ├── mental_health_analysis/
+│   ├── uncovering_the_worlds_oldest/
+├── data_engineering/
+│   ├── cloud_data_warehouse_for_music_analytics/
+│   ├── data-pipelines-with-airflow/
+│   ├── data_modeling_with_apache_cassandra/
+│   ├── data_processing_with_python/
+│   ├── geospatial_data_quality_pipeline/
+│   ├── real_time_fraud_detections/
+└── README.md   # (repo-level README)
+```
+---
 
-#### 🔹 Intermediate Level
-- **STEDI_Human_Balance_Analytics** – Sensor-based balance data analysis to understand human stability patterns.  
-- **international_debt_analysis** – Visual and statistical exploration of debt data across global economies.  
+## 🔥 Highlighted Projects
 
-#### 🔹 Advanced Level
-- **fraud_detection** – Statistical modeling and ML techniques to detect fraudulent patterns in financial transactions.
+### 📦 Data Engineering Projects
+- **[Real-Time Fraud Detection](./data_engineering/real_time_fraud_detections/)**  
+  Streaming-based fraud detection pipeline using Apache Kafka and Spark.
+  
+- **[Cloud Data Warehouse for Music Analytics](./data_engineering/cloud_data_warehouse_for_music_analytics/)**  
+  Cloud-native data warehouse architecture for music streaming analysis.
+  
+- **[Data Pipelines with Apache Airflow](./data_engineering/data-pipelines-with-airflow/)**  
+  Orchestration of automated ETL workflows using Apache Airflow DAGs.
+  
+- **[Data Modeling with Apache Cassandra](./data_engineering/data_modeling_with_apache_cassandra/)**  
+  NoSQL data modeling for scalable, distributed systems.
+  
+- **[Data Processing with Python](./data_engineering/data_processing_with_python/)**  
+  Batch processing of large datasets using optimized Python workflows.
+  
+- **[Geospatial Data Quality Pipeline](./data_engineering/geospatial_data_quality_pipeline/)**  
+  Validation and quality assurance pipelines for geospatial datasets.
 
 ---
 
-## 🧠 Technical Focus Areas
+### 📊 Data Analysis Projects
+- **[STEDI Human Balance Analysis](./data_analysis/STEDI_Human_Balance_Analysis/)**  
+  Analyzing human balance data to assess stability patterns.
 
-### ☁️ Cloud & DevOps
-Terraform, Docker, AWS (EC2, S3, Lambda, CloudWatch, RDS), GitHub Actions, ECS/EKS, CI/CD, observability, infrastructure as code, security best practices
+- **[Carbon Emissions Analysis](./data_analysis/carbon_emissions_analysis/)**  
+  Investigating global carbon emission trends and environmental impacts.
+  
+- **[Fraud Detection (Exploratory)](./data_analysis/fraud_detection/)**  
+  Exploratory data analysis of financial transaction data for fraud indicators.
 
-### 🔄 Data Engineering
-Airflow, Kafka, Spark, S3-based pipelines, event streaming, scalable batch/real-time data architectures
+- **[International Debt Analysis](./data_analysis/international_debt_analysis/)**  
+  Insights into global debt patterns across countries.
 
-### 📈 Data Analysis & ML
-Pandas, SQL, statistical modeling, anomaly detection, Streamlit dashboards, Matplotlib/Seaborn visualizations
+- **[Mental Health Analysis](./data_analysis/mental_health_analysis/)**  
+  Understanding mental health trends through data visualization.
 
----
-
-## 🧭 Navigation
-
-Each project includes a `README.md` with:
-- **Overview** – High-level summary and purpose  
-- **Architecture** – System design and tools used  
-- **Implementation** – Key components, configs, and pipelines  
-- **Outcomes** – Business value or technical impact
+- **[World’s Oldest Civilization Discovery](./data_analysis/uncovering_the_worlds_oldest/)**  
+  Exploratory analysis of archaeological and historical findings.
 
 ---
-
-📬 Connect with me at [flucasio.com](https://flucasio.com) (coming soon) or on [LinkedIn](https://linkedin.com/in/furlanflucas).
 
